@@ -4,7 +4,7 @@ Small repo containing a REPL for playing with the Open Llama weights using torch
 
 ## Installation
 
-1. Install torch for your operating system (CUDA 11.7 if windows, Default if mac)
+1. [Install torch](https://pytorch.org/get-started/locally/) for your operating system (CUDA 11.7 if windows, Default if mac) 
 
 2. `pip install -r requirements.txt`
 
