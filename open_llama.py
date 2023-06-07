@@ -28,6 +28,7 @@ to respond to; decide which and write an appropriate response.
             
 ### Prompt: 
 {prompt}
+
 ### Response:
         """.format(prompt=prompt)
 
