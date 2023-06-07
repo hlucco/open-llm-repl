@@ -1,6 +1,6 @@
 # Open Llama REPL
 
-Small repo containing a REPL for playing with the Open Llama weights using torch and 🤗 transformers.
+Small repo containing a REPL for playing with the open source LLMs using torch and 🤗 transformers.
 
 ## Installation
 
