@@ -1,6 +1,4 @@
-import open_llama
-import gptj
-import gptfourall
+from model_lib import open_llama, gptj, gptfourall
 
 def run():
     max_tokens = 100
