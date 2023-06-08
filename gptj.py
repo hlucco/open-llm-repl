@@ -21,6 +21,17 @@ class Model:
 
     def generate(self, prompt: str, max_tokens: int) -> str:
 
+        meta_prompt = """### Human:
+You are an artificial assistant that gives facts based answers.
+You strive to answer concisely.
+When you're done responding, add a "Review" section and create and append a terse review to the response.
+In your review, you review the response to fact check it and point out any inaccuracies.
+Be analytical and critical in your review, and very importantly, don't repeat parts of your answer.
+
+{prompt}
+
+### Assistant:""".format(prompt=prompt)
+
         inputs = self.tokenizer(prompt, return_tensors="pt").input_ids
         inputs = inputs.to('cuda')
         response = ""

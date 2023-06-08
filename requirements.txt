@@ -1,3 +1,4 @@
 transformer
 accelerate
 sentencepiece
+gpt4all

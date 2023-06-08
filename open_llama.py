@@ -21,18 +21,9 @@ class Model:
 
     def generate(self, prompt: str, max_tokens: int) -> str:
 
-        meta_prompt = """
-### Instruction: 
-The prompt below is a question to answer, a task to complete, or a conversation 
-to respond to; decide which and write an appropriate response.
-            
-### Prompt: 
-{prompt}
+        prompt = self.build_prompt(prompt)
 
-### Response:
-        """.format(prompt=prompt)
-
-        inputs = self.tokenizer(meta_prompt, return_tensors="pt")
+        inputs = self.tokenizer(prompt, return_tensors="pt")
         inputs = inputs.to('cuda')
         response = ""
 
@@ -81,5 +72,18 @@ to respond to; decide which and write an appropriate response.
 
         return response
 
+    def build_prompt(self, prompt: str) -> str:
+        # ripped form gpt4all python bindings
+        full_prompt = ""
 
+        full_prompt += """### Instruction: 
+        The prompt below is a question to answer, a task to complete, or a conversation 
+        to respond to; decide which and write an appropriate response.
+        \n### Prompt: """
 
+        user_message = "\n" + prompt
+        full_prompt += user_message
+
+        full_prompt += "\n### Response:"
+        
+        return full_prompt

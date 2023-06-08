@@ -1,16 +1,16 @@
 import open_llama
 import gptj
+import gptfourall
 
-MAX_TOKENS = 100
-
-if __name__ == "__main__":
+def run():
+    max_tokens = 100
 
     model_names = {
         "Open Llama" : open_llama, 
-        "GPTJ" : gptj
+        "GPTJ" : gptj,
+        "gpt4all" : gptfourall
     }
 
-    model_name = ""
     print("Choose a model:")
     for i, name in enumerate(model_names):
         print(str((i + 1)) + ". " + name)
@@ -20,15 +20,29 @@ if __name__ == "__main__":
     model_instance = selected_pair[1].Model()
 
     print("Chat with {model_name}".format(model_name=selected_pair[0]))
+    swap = False
     while True:
         user_input = input("> ")
 
         if user_input == "exit":
+            exit()
+        elif user_input == "swap":
+            swap = True
             break
+        elif user_input == "tokens":
+            max_tokens = int(input("new max token amount: "))
+            continue
 
-        response = model_instance.generate(user_input, MAX_TOKENS)
-
+        response = model_instance.generate(user_input, max_tokens)
         print(response)
+
+    if swap:
+        swap = False
+        run()
+
+if __name__ == "__main__":
+    run()
+
 
 
 

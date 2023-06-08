@@ -1,4 +1,4 @@
-# Open Llama REPL
+# Open Source LLM REPL
 
 Small repo containing a REPL for playing with the open source LLMs using torch and 🤗 transformers.
 
@@ -12,4 +12,6 @@ Small repo containing a REPL for playing with the open source LLMs using torch a
 
 ## Usage
 
-When prompted, enter a string to send it to Open Llama as a prompt. To leave the REPL, type "exit"
+When prompted, enter a string to send it to the selected LLM as a prompt. To leave the REPL, type "exit". Additional commands:
+- `swap` change the active model
+- `tokens` update the max allowed tokens for generation
