@@ -1,4 +1,4 @@
-from model_lib import open_llama, gptj, gptfourall
+from model_lib import open_llama, gptj, gptfourall, falcon
 
 def run():
     max_tokens = 100
@@ -6,7 +6,8 @@ def run():
     model_names = {
         "Open Llama" : open_llama, 
         "GPTJ" : gptj,
-        "gpt4all" : gptfourall
+        "gpt4all" : gptfourall,
+        "falcon7b-instruct": falcon
     }
 
     print("Choose a model:")
@@ -40,8 +41,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-
-
-
-
-
