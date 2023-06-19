@@ -10,34 +10,23 @@ def run():
         "falcon7b-instruct": falcon
     }
 
-    print("Choose a model:")
-    for i, name in enumerate(model_names):
-        print(str((i + 1)) + ". " + name)
-
-    model_selection = int(input("> "))
-    selected_pair = (list(model_names.items())[model_selection - 1])
-    model_instance = selected_pair[1].Model()
-
-    print("Chat with {model_name}".format(model_name=selected_pair[0]))
-    swap = False
     while True:
-        user_input = input("> ")
+        print("Choose a model:")
 
-        if user_input == "exit":
-            exit()
-        elif user_input == "swap":
-            swap = True
-            break
-        elif user_input == "tokens":
+        for i, name in enumerate(model_names):
+            print(str((i + 1)) + ". " + name)
+
+        model_selection = input("> ")
+        if model_selection == "tokens":
             max_tokens = int(input("new max token amount: "))
             continue
+        elif model_selection == "exit":
+            break
 
-        response = model_instance.generate(user_input, max_tokens)
-        print(response)
+        selected_pair = (list(model_names.items())[int(model_selection) - 1])
+        model_instance = selected_pair[1].Model()
 
-    if swap:
-        swap = False
-        run()
+        model_instance.chat(max_tokens)
 
 if __name__ == "__main__":
     run()

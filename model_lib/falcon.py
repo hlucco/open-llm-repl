@@ -1,15 +1,20 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer
 import transformers
 import torch
 import time
+import gc
 
-class Model:
+from model_lib.model_instance import ModelInstance
+
+class Model(ModelInstance):
 
     def __init__(self) -> None:
-        print("Loading  falcon40b...")
         # self.model_path = 'tiiuae/falcon-40b-instruct'
         self.model_path = 'tiiuae/falcon-7b-instruct'
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+        self.model_name = "falcon-7b-instruct"
+
+        print("Loading  {model_name}...".format(model_name=self.model_name))
 
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         print("device found: {device}".format(device=device))
@@ -45,6 +50,28 @@ class Model:
         if sequences:
             for seq in sequences:
                 print(seq)
-                response = seq['generated_text']
+                if type(seq) == dict:
+                    response = seq['generated_text']
 
         return str(response)
+
+    def chat(self, max_tokens: int):
+        print("Chat with {model_name}".format(model_name=self.model_name))
+
+        while True:
+            user_input = input("> ")
+
+            if user_input == "exit":
+                exit()
+            elif user_input == "swap":
+                break
+
+            response = self.generate(user_input, max_tokens)
+            print(response)
+
+        # Clearing GPU memory to reset for next model
+        del self.pipeline, self.tokenizer
+        gc.collect()
+        torch.cuda.empty_cache()
+        return
+

@@ -1,12 +1,17 @@
 from transformers import AutoTokenizer, GPTJForCausalLM
 import torch
 import time
+import gc
 
-class Model:
+from model_lib.model_instance import ModelInstance
+
+class Model(ModelInstance):
 
     def __init__(self) -> None:
-        print("Loading GPTJ...")
+        self.model_name = "GPTJ"
         self.model_path = 'EleutherAI/gpt-j-6B'
+
+        print("Loading {model_name}...".format(model_name=self.model_name))
 
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
 
@@ -52,3 +57,23 @@ Be analytical and critical in your review, and very importantly, don't repeat pa
             response = self.tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
         return response
+
+    def chat(self, max_tokens: int):
+        print("Chat with {model_name}".format(model_name=self.model_name))
+
+        while True:
+            user_input = input("> ")
+
+            if user_input == "exit":
+                exit()
+            elif user_input == "swap":
+                break
+
+            response = self.generate(user_input, max_tokens)
+            print(response)
+
+        # Clearing GPU memory to reset for next model
+        del self.model, self.tokenizer
+        gc.collect()
+        torch.cuda.empty_cache()
+        return
