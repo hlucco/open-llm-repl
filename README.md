@@ -36,7 +36,6 @@ Example full prompt using one of the example meta tags:
 
 ```
 <meta:example> name three colors:
-
 ```
 
 Final prompt sent to model:
