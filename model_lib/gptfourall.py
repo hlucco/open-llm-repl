@@ -1,7 +1,5 @@
-import torch
 import time
 import gpt4all
-import gc
 
 from model_lib.model_instance import ModelInstance
 
@@ -25,23 +23,3 @@ class Model(ModelInstance):
         print("Generation Time: " + str(gen_time))
 
         return response['choices'][0]["message"]["content"]
-
-    def chat(self, max_tokens: int):
-        print("Chat with {model_name}".format(model_name=self.model_name))
-
-        while True:
-            user_input = input("> ")
-
-            if user_input == "exit":
-                exit()
-            elif user_input == "swap":
-                break
-
-            response = self.generate(user_input, max_tokens)
-            print(response)
-
-        # Clearing GPU memory to reset for next model
-        del self.model
-        gc.collect()
-        torch.cuda.empty_cache()
-        return

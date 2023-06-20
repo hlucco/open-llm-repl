@@ -2,7 +2,6 @@ from transformers import AutoTokenizer
 import transformers
 import torch
 import time
-import gc
 
 from model_lib.model_instance import ModelInstance
 
@@ -17,11 +16,11 @@ class Model(ModelInstance):
         print("Loading  {model_name}...".format(model_name=self.model_name))
 
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        print("device found: {device}".format(device=device))
+        print("Device found: {device}".format(device=device))
         if (torch.cuda.is_available()):
             print("GPU: " + str(torch.cuda.get_device_name(torch.cuda.current_device())))
 
-        self.pipeline = transformers.pipeline(
+        self.model = transformers.pipeline(
             "text-generation",
             model=self.model_path,
             tokenizer=self.tokenizer,
@@ -35,7 +34,7 @@ class Model(ModelInstance):
         response = ""
 
         gen_start = time.time()
-        sequences = self.pipeline(
+        sequences = self.model(
             prompt,
             max_length=max_tokens,
             do_sample=True,
@@ -49,29 +48,7 @@ class Model(ModelInstance):
 
         if sequences:
             for seq in sequences:
-                print(seq)
                 if type(seq) == dict:
                     response = seq['generated_text']
 
         return str(response)
-
-    def chat(self, max_tokens: int):
-        print("Chat with {model_name}".format(model_name=self.model_name))
-
-        while True:
-            user_input = input("> ")
-
-            if user_input == "exit":
-                exit()
-            elif user_input == "swap":
-                break
-
-            response = self.generate(user_input, max_tokens)
-            print(response)
-
-        # Clearing GPU memory to reset for next model
-        del self.pipeline, self.tokenizer
-        gc.collect()
-        torch.cuda.empty_cache()
-        return
-

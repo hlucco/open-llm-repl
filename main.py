@@ -4,7 +4,7 @@ def run():
     max_tokens = 100
 
     model_names = {
-        "Open Llama" : open_llama, 
+        "Open Llama" : open_llama,
         "GPTJ" : gptj,
         "gpt4all" : gptfourall,
         "falcon7b-instruct": falcon
