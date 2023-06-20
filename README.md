@@ -16,7 +16,7 @@ When prompted, enter a string to send it to the selected LLM as a prompt. To lea
 - `swap` change the active model
 - `tokens` update the max allowed tokens for generation
 
-## Meta Prompt Support
+## Meta Prompts
 
 The REPL also supports adding the contents of a meta prompt file inline. Any text based file that is added to the `meta` directory can be accessed and added at any part of the prompt. To use a meta prompt, when inputing a prompt into the REPL, add a marker of the following format:
 
@@ -31,3 +31,20 @@ are valid, while
 `<meta:txtexample.txt>` and `<meta:example.md`
 
 will not be found when parsing the prompt. If a meta tag filename is not found while parsing, then a message will be displayed and tag will be removed from the final prompt before it is sent to the model.
+
+Example full prompt using one of the example meta tags:
+
+```
+<meta:example> name three colors:
+
+```
+
+Final prompt sent to model:
+
+```
+## Task
+After the ##Response header, there will be a prompt in the form of a question or task. Compute the best answer to this prompt
+
+## Response
+name three colors:
+```
