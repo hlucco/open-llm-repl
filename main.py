@@ -63,12 +63,19 @@ class REPL:
         response = ""
 
         if not user_input:
-            return red("ERROR: invalid input")
+            response = red("ERROR: invalid command")
+            print(response)
+            return response
 
         if user_input[0] == "/":
             user_tokens = user_input.split(" ")
             command_name = user_tokens[0][1:]
             args = user_tokens[1:]
+
+            if command_name not in self.__commands:
+                response = red("ERROR: invalid command")
+                print(response)
+                return response
 
             command_object = self.__commands[command_name]()
             response = command_object.run(self, args)
