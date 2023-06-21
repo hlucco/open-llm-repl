@@ -15,6 +15,9 @@ class ModelInstance:
     def chat(self, repl, user_input: str) -> str:
         meta_contents = repl.get_meta()
 
+        if not meta_contents:
+            return self.generate(user_input, repl.get_tokens())
+
         meta_vars = list(re.finditer(r"<([^>]+)>", meta_contents))
         while len(meta_vars) != 0:
             match = meta_vars[0]

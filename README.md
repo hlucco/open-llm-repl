@@ -26,8 +26,24 @@ Commands are entered using the `/` prefix. The value of an environment variable 
 
 ## Prompt Templates
 
-To add a prompt template, define the template as any type of text/code file in the `/meta` directory. Loading this prompt into the REPL with the `/meta` command will add every user input prompt to the `<USER_INPUT>` variable defined in the prompt file then send the entire prompt to the model. Meta prompts can also support other variables. The variable can be added to the prompt by adding the marker `<EXAMPLE_VARIABLE>`. The variable can then be set in the environment using `/setvar`. See the `/meta` directory for some example meta prompts.
+To add a prompt template, define the template as any type of text/code file in the `/meta` directory. Loading this prompt into the REPL with the `/meta` command:
+```
+/meta example.md
+```
+will add every user input prompt to the `<USER_INPUT>` variable defined in the prompt file and then send the entire prompt to the model. Meta prompts can also support other variables. Additional variables can be added to the prompt by adding a variable marker such as 
+```
+<EXAMPLE_VARIABLE>
+```
+`EXAMPLE_VARIABLE` is a placeholder that can be replaced with any string. The additional variable can then be set in the environment using
+```
+/setvar EXAMPLE_VARIABLE EXAMPLE_VALUE
+```
+See the `/meta` directory for some example meta prompts.
 
 ## Load Command
 
 The `/load` command loads a file of inputs seperated by newlines. These inputs can be any valid input to the REPL (command, variable, user input prompt) and will be run in the order they appear in the loaded file. See the `/load` directory for an example load file.
+
+```
+/load example_load_list.txt
+```
