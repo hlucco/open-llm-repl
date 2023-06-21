@@ -64,7 +64,6 @@ class REPL:
 
         if not user_input:
             response = red("ERROR: invalid command")
-            print(response)
             return response
 
         if user_input[0] == "/":
