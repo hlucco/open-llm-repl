@@ -12,39 +12,14 @@ Small repo containing a REPL for playing with the open source LLMs using torch a
 
 ## Usage
 
-When prompted, enter a string to send it to the selected LLM as a prompt. To leave the REPL, type "exit". Additional commands:
-- `swap` change the active model
-- `tokens` update the max allowed tokens for generation
+Commands are entered using the `/` prefix. All other inputs are passed into the currently loaded model as a prompt.
 
-## Meta Prompts
+## Commands
 
-The REPL also supports adding the contents of a meta prompt file inline. Any text based file that is added to the `meta` directory can be accessed and added at any part of the prompt. To use a meta prompt, when inputing a prompt into the REPL, add a marker of the following format:
 
-`<meta:[filename]>`
-
-filename should only contain the name of the file, not the name of the file and the extension. For example:
-
-`<meta:txtexample>` and `<meta:example>` 
-
-are valid, while
-
-`<meta:txtexample.txt>` and `<meta:example.md`
-
-will not be found when parsing the prompt. If a meta tag filename is not found while parsing, then a message will be displayed and tag will be removed from the final prompt before it is sent to the model.
-
-Example full prompt using one of the example meta tags:
-
-```
-<meta:example> name three colors:
-```
-
-Final prompt sent to model:
-
-```
-## Task
-After the ##Response header, there will be a prompt in the form of a question or task. Compute
-the best answer to this prompt
-
-## Response
-name three colors:
-```
+- `/exit` terminates process
+- `/tokens [num_tokens]` update the max allowed tokens for generation
+- `/model [model_name]` load specified model
+- `/meta [filename]` load a meta prompt template from `/meta`
+- `/load [filename]` load and run a predefined set of input from `/load`
+- `/list` list all supported model names
