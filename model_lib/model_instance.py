@@ -31,6 +31,9 @@ class ModelInstance:
                 val = user_input
 
             meta_contents = meta_contents[:start_idx] + val + meta_contents[end_idx:]
+            show_contents = repl.get_var("SHOW_PROMPT")
+            if show_contents:
+                print(meta_contents)
             meta_vars = list(re.finditer(r"<([^>]+)>", meta_contents))
 
         response = self.generate(meta_contents, repl.get_tokens())

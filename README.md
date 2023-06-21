@@ -1,6 +1,6 @@
 # Open Source LLM REPL
 
-Small repo containing a REPL for playing with the open source LLMs using torch and 🤗 transformers.
+Small repo containing a REPL for playing with the open source LLMs using torch and 🤗 transformers. Requires a GPU for reasonable performance, but you can use gpt4all on CPU.
 
 ## Installation
 
