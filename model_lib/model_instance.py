@@ -1,70 +1,34 @@
 from abc import abstractmethod
-import gc
-import torch
-import os
-
-META_DIR = "./meta"
-
-class colors:
-    RED = '\033[91m'
-    RESET = '\033[0m'
+import re
 
 class ModelInstance:
-
+    
     model_name = ""
     model_instance = None
     tokenizer = None
     model = None
 
     @abstractmethod
-    def generate(self, prompt: str, max_tokens: int):
+    def generate(self, prompt: str, max_tokens: int) -> str:
         pass
 
-    def __parse_input(self, user_input: str) -> str:
-        input_tokens = user_input.split(" ")
+    def chat(self, repl, user_input: str) -> str:
+        meta_contents = repl.get_meta()
 
-        for i, token in enumerate(input_tokens):
-            if token[0:5] == "<meta":
-                meta_name = token.split(":")[1][0:-1]
-                found_match = False
-                
-                for file_name in os.listdir(META_DIR):
-                    prompt_name = file_name.split(".")[0]
-                    if prompt_name == meta_name:
-                        found_match = True
+        meta_vars = list(re.finditer(r"<([^>]+)>", meta_contents))
+        while len(meta_vars) != 0:
+            match = meta_vars[0]
+            key = match.group(1)
+            start_idx = match.start()
+            end_idx = match.end()
 
-                        with open(os.path.join(META_DIR, file_name), "r") as prompt_file:
-                            file_contents = prompt_file.read()
-                            input_tokens[i] = file_contents[0:-1]
+            val = repl.get_var(key)
 
-                if not found_match:
-                    print(f"{colors.RED}ERROR: Meta prompt matching {meta_name} was not found{colors.RESET}")
-                    del input_tokens[i]
+            if key == "USER_INPUT":
+                val = user_input
 
-        composed_input = " ".join(input_tokens)
-        return composed_input
+            meta_contents = meta_contents[:start_idx] + val + meta_contents[end_idx:]
+            meta_vars = list(re.finditer(r"<([^>]+)>", meta_contents))
 
-    def chat(self, max_tokens: int):
-        print("Chat with {model_name}".format(model_name=self.model_name))
-
-        while True:
-            user_input = input("> ")
-
-            if user_input == "exit":
-                exit()
-            elif user_input == "tokens":
-                max_tokens = int(input("new max token amount: "))
-                continue
-            elif user_input == "swap":
-                break
-
-            composed_input = self.__parse_input(user_input)
-
-            response = self.generate(composed_input, max_tokens)
-            print(response)
-
-        # Clearing GPU memory to reset for next model
-        del self.model, self.tokenizer
-        gc.collect()
-        torch.cuda.empty_cache()
-        return
+        response = self.generate(meta_contents, repl.get_tokens())
+        return response

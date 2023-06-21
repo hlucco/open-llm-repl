@@ -1,0 +1,5 @@
+/setvar RED ff0000
+/setvar BLUE 0000ff
+/list
+/model falcon7b-instruct
+/meta example.md
