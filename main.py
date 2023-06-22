@@ -13,7 +13,7 @@ from util.colors import red
 class REPL:
 
     def __init__(self) -> None:
-        self.__max_tokens = 2000
+        self.__max_tokens = 100
         self.__meta_prompt = ""
         self.__commands: Dict[str, Type[Command]] = {
             "model" : CommandModel,
