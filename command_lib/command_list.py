@@ -8,7 +8,8 @@ class CommandList(Command):
             "open_llama",
             "gptj",
             "gpt4all",
-            "falcon7b-instruct"
+            "falcon7b-instruct",
+            "falcon7b"
         ]
 
     # TODO

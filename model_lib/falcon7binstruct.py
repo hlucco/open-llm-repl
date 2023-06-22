@@ -8,10 +8,9 @@ from model_lib.model_instance import ModelInstance
 class Model(ModelInstance):
 
     def __init__(self) -> None:
-        # self.model_path = 'tiiuae/falcon-40b-instruct'
-        self.model_path = 'tiiuae/falcon-7b-instruct'
+        self.model_path = 'tiiuae/falcon-7b'
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.model_name = "falcon-7b-instruct"
+        self.model_name = "falcon-7b"
 
         print("Loading  {model_name}...".format(model_name=self.model_name))
 

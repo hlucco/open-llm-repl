@@ -1,6 +1,6 @@
 from command_lib.command import Command
 from typing import Dict, Type
-from model_lib import open_llama, gptj, gptfourall, falcon
+from model_lib import falcon7binstruct, falcon7b, open_llama, gptj, gptfourall
 from model_lib.model_instance import ModelInstance
 from util.colors import red
 import gc
@@ -10,7 +10,8 @@ model_names: Dict[str, Type[ModelInstance]] = {
     "open_llama" : open_llama.Model,
     "gptj" : gptj.Model,
     "gpt4all" : gptfourall.Model,
-    "falcon7b-instruct": falcon.Model
+    "falcon7b-instruct": falcon7binstruct.Model,
+    "falcon7b": falcon7b.Model,
 }
 
 class CommandModel(Command):
